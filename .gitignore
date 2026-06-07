@@ -1,0 +1,26 @@
+# Dependency directories
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Environment files (contains credentials)
+.env
+server/.env
+client/.env
+
+# Production build outputs
+dist/
+client/dist/
+server/dist/
+
+# Local IDE/system files
+.DS_Store
+.idea/
+.vscode/
+*.log
+
+# Project specific temporary directories
+.gemini/
+.system_generated/
+.tempmediaStorage/
+scratch/

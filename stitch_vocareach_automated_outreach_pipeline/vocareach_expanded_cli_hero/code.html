@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VocaReach - The Automated Cold-Outreach Pipeline</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#1d2026",
+                        "on-surface-variant": "#cbc3d7",
+                        "on-error": "#690005",
+                        "on-secondary-fixed": "#001f26",
+                        "on-primary-container": "#340080",
+                        "tertiary": "#4edea3",
+                        "on-background": "#e1e2eb",
+                        "secondary-container": "#03b5d3",
+                        "inverse-on-surface": "#2e3037",
+                        "outline-variant": "#494454",
+                        "on-tertiary": "#003824",
+                        "background": "#10131a",
+                        "secondary-fixed-dim": "#4cd7f6",
+                        "on-primary-fixed": "#23005c",
+                        "on-primary": "#3c0091",
+                        "primary-fixed-dim": "#d0bcff",
+                        "on-tertiary-container": "#00311f",
+                        "outline": "#958ea0",
+                        "on-surface": "#e1e2eb",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "on-secondary-container": "#00424e",
+                        "on-tertiary-fixed": "#002113",
+                        "tertiary-fixed": "#6ffbbe",
+                        "error": "#ffb4ab",
+                        "surface-container-high": "#272a31",
+                        "on-secondary-fixed-variant": "#004e5c",
+                        "inverse-primary": "#6d3bd7",
+                        "surface-bright": "#363940",
+                        "surface-variant": "#32353c",
+                        "secondary-fixed": "#acedff",
+                        "surface-container-low": "#191c22",
+                        "inverse-surface": "#e1e2eb",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "surface-container-lowest": "#0b0e14",
+                        "primary": "#d0bcff",
+                        "tertiary-container": "#00a572",
+                        "primary-fixed": "#e9ddff",
+                        "on-secondary": "#003640",
+                        "on-primary-fixed-variant": "#5516be",
+                        "secondary": "#4cd7f6",
+                        "surface-tint": "#d0bcff",
+                        "surface-container-highest": "#32353c",
+                        "on-error-container": "#ffdad6",
+                        "error-container": "#93000a",
+                        "primary-container": "#a078ff",
+                        "surface-dim": "#10131a",
+                        "surface": "#10131a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "8px",
+                        "gutter": "24px",
+                        "lg": "40px",
+                        "md": "24px",
+                        "sm": "16px",
+                        "base": "4px",
+                        "xl": "64px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter", "sans-serif"],
+                        "label-sm": ["JetBrains Mono", "monospace"],
+                        "headline-lg-mobile": ["Inter", "sans-serif"],
+                        "headline-lg": ["Inter", "sans-serif"],
+                        "headline-xl": ["Inter", "sans-serif"],
+                        "code-md": ["JetBrains Mono", "monospace"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "code-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .cyber-glow {
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+        }
+        .glass-card {
+            background: rgba(22, 27, 34, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="bg-background/70 backdrop-blur-md w-full top-0 sticky z-50 border-b border-outline-variant">
+<div class="flex justify-between items-center w-full px-gutter max-w-container-max mx-auto h-16">
+<div class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg font-bold text-primary tracking-tighter">
+                VocaReach
+            </div>
+<!-- Desktop Nav -->
+<div class="hidden md:flex space-x-md">
+<a class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:scale-95 font-body-md text-body-md transition-all duration-200" href="#">Architecture</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:scale-95 font-body-md text-body-md transition-all duration-200" href="#">API Stages</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 cursor-pointer active:scale-95 font-body-md text-body-md transition-all duration-200" href="#">Quick Start</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:scale-95 font-body-md text-body-md transition-all duration-200" href="#">GitHub</a>
+</div>
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden text-on-surface">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<!-- Trailing Action (Desktop) -->
+<button class="hidden md:block bg-[#8B5CF6] text-white px-md py-xs rounded transition-all duration-300 font-label-sm text-label-sm btn-primary">
+                Get Started
+            </button>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col w-full">
+<!-- Hero Section with Developer Workspace Image -->
+<section class="relative px-gutter py-xl max-w-container-max mx-auto w-full flex flex-col md:flex-row items-center gap-xl mt-md overflow-hidden rounded-xl">
+<div class="flex-1 flex flex-col gap-md z-10 relative">
+<div class="absolute -top-20 -left-20 w-64 h-64 bg-primary opacity-5 blur-[100px] rounded-full pointer-events-none"></div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface">
+                    VocaReach: The Automated <span class="text-secondary">Cold-Outreach Pipeline</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-lg">
+                    A four-stage stateless execution engine designed for scale. Production-grade CLI for SDE assignments. Supercharge lead generation with idempotent transformations and surgical precision.
+                </p>
+<div class="flex gap-md mt-sm">
+<button class="bg-[#8B5CF6] text-white px-md py-sm rounded transition-all duration-300 font-label-sm text-label-sm flex items-center gap-xs btn-primary">
+<span class="material-symbols-outlined text-sm">terminal</span> Initialize Pipeline
+                    </button>
+<button class="border border-secondary text-secondary px-md py-sm rounded hover:bg-secondary/10 transition-colors font-label-sm text-label-sm flex items-center gap-xs">
+                        View Documentation
+                    </button>
+</div>
+</div>
+<div class="flex-1 w-full flex flex-col gap-md">
+<!-- Terminal Demo -->
+<div class="w-full cyber-glow rounded-xl overflow-hidden shadow-2xl relative md:h-full">
+<div class="bg-[#1C2128] border-b border-[#30363D] h-8 flex items-center px-sm gap-xs justify-between">
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+<div class="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+<div class="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant ml-sm opacity-50">sh ./pipeline.sh --verbose</span>
+</div>
+<button class="text-on-surface-variant opacity-50 hover:opacity-100 transition-opacity" id="cli-reset" title="Reset Demo">
+<span class="material-symbols-outlined text-[14px]">refresh</span>
+</button>
+</div>
+<div class="bg-[#000000] p-md font-code-md text-code-md text-on-surface-variant min-h-[220px] flex flex-col relative" id="cli-demo-container" style="min-height: 400px;"><div class="text-tertiary mb-xs font-code-md text-code-md"><span class="">$ npx vocareach start --target="stri</span><div class="w-2 h-4 bg-on-surface-variant animate-pulse inline-block align-middle ml-1"></div></div></div>
+</div>
+<!-- Developer Workspace Image -->
+</div>
+</section>
+<!-- Global Scale Section -->
+<section class="bg-surface-container-lowest py-xl border-y border-outline-variant mt-xl">
+<div class="px-gutter max-w-container-max mx-auto flex flex-col md:flex-row items-center gap-xl">
+<div class="flex-1">
+<img alt="Global Reach" class="rounded-xl border border-outline-variant shadow-2xl w-full" src="https://lh3.googleusercontent.com/aida/AP1WRLueuyTIfhnce1EETfBpU7TbRtDfee24kIHkHBw7a5_wQJUKZ09cRcgtkJD1L7vedHFNZkIOf6DaPnee2APoQrsIPP41-UvSPpEWWVAo7-zgVYsQbOyeIa0gxt-SpgBwQ5e-Auq0hadzrR3ZcY11yh5ISdCztfn3YmK1OXCMrOngEjQCcw4iXIR-hq_MMc-A0kXz4a1UZV5AS9Se2i1ChK6CLTwnoclUULArNJVfsp6uBkIGvnblN2kJS3g"/>
+</div>
+<div class="flex-1">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-md">Production Ready at Global Scale</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">
+                        Built for reliability. VocaReach utilizes distributed infrastructure to manage high-concurrency prospecting tasks without performance degradation.
+                    </p>
+<ul class="space-y-sm">
+<li class="flex items-center gap-sm text-on-surface-variant">
+<span class="w-2 h-2 rounded bg-secondary"></span>
+<span class="">Distributed Task Processing</span>
+</li>
+<li class="flex items-center gap-sm text-on-surface-variant">
+<span class="w-2 h-2 rounded bg-secondary"></span>
+<span class="">Zero-Configuration Scaling</span>
+</li>
+<li class="flex items-center gap-sm text-on-surface-variant">
+<span class="w-2 h-2 rounded bg-secondary"></span>
+<span class="">Global SMTP Relay Infrastructure</span>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- Pipeline Overview with Architecture Diagram -->
+<section class="py-xl mt-xl">
+<div class="px-gutter max-w-container-max mx-auto">
+<div class="mb-lg">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Linear Pipeline Execution &amp; State Orchestration</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">A synchronized flow of high-concurrency data enrichment APIs.</p>
+</div>
+<div class="mb-xl rounded-xl overflow-hidden border border-outline-variant shadow-xl">
+<img alt="Architecture Diagram" class="w-full h-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLubXGI0XQF9v9LXI9UVLfoDKjhGfJgCXEy0_IX4dE-qmIpEc3fqhzvKIastS2ZVXdr87oiD_wvPKtpdZ6nfGhBornDLaDNuyf7KS6VycYCXzBKLIkh5fzvAmlQhL_exhUywhFsd4E1Ed5GuT1mO6ybUgAGF_0yZtF9SBTq5tLdaijTiMwMc4WDGSVdxgBGQzJfsZSpTiG4mjJU6vIJHhM4llpMysRb8q5glOE-3SwpJwKBJo1C6R6XoEwY"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-sm">
+<!-- Stage 1 -->
+<div class="glass-card p-md rounded-lg flex flex-col h-full cyber-glow hover:-translate-y-1 transition-transform">
+<div class="text-label-sm font-label-sm text-secondary mb-xs">[STAGE 01]</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-xs">Vector Lookalike Extraction</h3>
+<p class="font-body-md text-body-md text-on-surface-variant flex-grow">Identifies target domains similar to the input seed using vector-search AI models.</p>
+<div class="mt-md font-label-sm text-label-sm text-tertiary pt-sm border-t border-outline-variant">Integration: Ocean.io</div>
+</div>
+<!-- Stage 2 -->
+<div class="glass-card p-md rounded-lg flex flex-col h-full cyber-glow hover:-translate-y-1 transition-transform">
+<div class="text-label-sm font-label-sm text-secondary mb-xs">[STAGE 02]</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-xs">Attribute Prospecting</h3>
+<p class="font-body-md text-body-md text-on-surface-variant flex-grow">Filters decision-makers based on granular role attributes via scraping engines.</p>
+<div class="mt-md font-label-sm text-label-sm text-tertiary pt-sm border-t border-outline-variant">Integration: Prospeo</div>
+</div>
+<!-- Stage 3 -->
+<div class="glass-card p-md rounded-lg flex flex-col h-full cyber-glow hover:-translate-y-1 transition-transform">
+<div class="text-label-sm font-label-sm text-secondary mb-xs">[STAGE 03]</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-xs">SMTP &amp; MX Validation</h3>
+<p class="font-body-md text-body-md text-on-surface-variant flex-grow">Resolves deliverability addresses with multi-step MX validation protocols.</p>
+<div class="mt-md font-label-sm text-label-sm text-tertiary pt-sm border-t border-outline-variant">Integration: Eazyreach</div>
+</div>
+<!-- Stage 4 -->
+<div class="glass-card p-md rounded-lg flex flex-col h-full cyber-glow hover:-translate-y-1 transition-transform">
+<div class="text-label-sm font-label-sm text-secondary mb-xs">[STAGE 04]</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-xs">Template Dispatch</h3>
+<p class="font-body-md text-body-md text-on-surface-variant flex-grow">Compiles dynamic templates and manages campaign dispatch via transactional APIs.</p>
+<div class="mt-md font-label-sm text-label-sm text-tertiary pt-sm border-t border-outline-variant">Integration: Brevo</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Tech Stack & Quick Start -->
+<section class="px-gutter py-xl max-w-container-max mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-xl">
+<!-- Quick Start -->
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-md">Quick Start</h2>
+<div class="bg-[#000000] border border-[#30363D] rounded-lg p-md font-code-md text-code-md text-on-surface-variant relative cyber-glow">
+<div class="absolute top-sm right-sm flex gap-xs">
+<span class="material-symbols-outlined text-on-surface-variant opacity-50 hover:opacity-100 cursor-pointer text-sm">content_copy</span>
+</div>
+<div class="text-tertiary mb-xs">[INIT] Install globally</div>
+<div class="mb-md">$ npm install -g vocareach-cli</div>
+<div class="text-tertiary mb-xs">[RUN] Execute pipeline</div>
+<div class="">$ npx vocareach stripe.com</div>
+</div>
+</div>
+<!-- Tech Stack -->
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-md">Core Technologies</h2>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-sm">
+<div class="glass-card p-sm rounded flex flex-col items-center justify-center gap-xs aspect-square hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-3xl text-on-surface">javascript</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Node.js</span>
+</div>
+<div class="glass-card p-sm rounded flex flex-col items-center justify-center gap-xs aspect-square hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-3xl text-on-surface">api</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Axios</span>
+</div>
+<div class="glass-card p-sm rounded flex flex-col items-center justify-center gap-xs aspect-square hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-3xl text-on-surface">format_paint</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Chalk</span>
+</div>
+<div class="glass-card p-sm rounded flex flex-col items-center justify-center gap-xs aspect-square hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-3xl text-on-surface">sync</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ora</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Fault Tolerance -->
+<section class="bg-surface-container-low py-[96px] border-t border-outline-variant mt-xl">
+<div class="px-gutter max-w-container-max mx-auto">
+<div class="mb-lg text-center max-w-2xl mx-auto">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Fault-Tolerant Execution Engine</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Built to survive connection instability and strict rate-limit policies.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+<div class="glass-card p-md rounded-lg flex flex-col gap-sm cyber-glow">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Exponential Backoff</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Automatic retries with randomized jitter ensure transient API failures are handled gracefully.</p>
+</div>
+<div class="glass-card p-md rounded-lg flex flex-col gap-sm cyber-glow">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Rate Limiting</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Token bucket implementation throttles requests based on upstream provider X-RateLimit headers.</p>
+</div>
+<div class="glass-card p-md rounded-lg flex flex-col gap-sm cyber-glow">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">State Serialization</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Pipeline state is serialized after each stage. Crash recovery resumes execution from last checkpoint.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Integration Ecosystem with Image -->
+<section class="px-gutter py-[96px] max-w-container-max mx-auto w-full">
+<div class="mb-lg">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Integration Ecosystem</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Unified API orchestration across best-in-class data providers.</p>
+</div>
+<div class="mb-xl rounded-xl overflow-hidden border border-outline-variant shadow-xl">
+<img alt="API Ecosystem Illustration" class="w-full h-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLsrGBD-dxOKiK8TtMc_3Oq7qSq-d1F3mjYBN5UQekwNKWPI4daGTK2gtwasLA76LvkNmBZ9uvfcFRZOSYOsryJw8FcbdbXTuGOz19eKikhhYK6u_emdTzt_pOH323-8i8eKeFcJEC1jbrTP71PNvKwvJj5e4uZPgNI6K2UYDjveCEYE9aeHBtE-EnRDpbXFXKsUGUJHssFtceTnfKPAYeE2FO1bArbWrG_rNtQIv6FPaXn8QXPMy4R5DU8"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="bg-[#000000] border border-[#30363D] p-md rounded-lg flex items-start gap-md hover:border-[#8B5CF6] transition-colors cyber-glow">
+<div class="w-12 h-12 rounded bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[#8B5CF6]">travel_explore</span>
+</div>
+<div>
+<h3 class="font-headline-lg-mobile text-on-surface mb-xs">Ocean.io</h3>
+<p class="font-body-md text-on-surface-variant mb-xs">Provides AI-driven lookalike audiences. We extract firmographic data to populate initial account objects.</p>
+<div class="font-label-sm text-tertiary">DATA: Domains, Firmographics</div>
+</div>
+</div>
+<div class="bg-[#000000] border border-[#30363D] p-md rounded-lg flex items-start gap-md hover:border-[#8B5CF6] transition-colors cyber-glow">
+<div class="w-12 h-12 rounded bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[#8B5CF6]">person_search</span>
+</div>
+<div>
+<h3 class="font-headline-lg-mobile text-on-surface mb-xs">Prospeo</h3>
+<p class="font-body-md text-on-surface-variant mb-xs">Programmatically scrapes LinkedIn for decision-makers matching role criteria within target accounts.</p>
+<div class="font-label-sm text-tertiary">DATA: Names, URLs, Titles</div>
+</div>
+</div>
+<div class="bg-[#000000] border border-[#30363D] p-md rounded-lg flex items-start gap-md hover:border-[#8B5CF6] transition-colors cyber-glow">
+<div class="w-12 h-12 rounded bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[#8B5CF6]">mark_email_read</span>
+</div>
+<div>
+<h3 class="font-headline-lg-mobile text-on-surface mb-xs">Eazyreach</h3>
+<p class="font-body-md text-on-surface-variant mb-xs">Validates business email addresses by executing SMTP handshakes and resolving MX records.</p>
+<div class="font-label-sm text-tertiary">DATA: Verified Emails, Status</div>
+</div>
+</div>
+<div class="bg-[#000000] border border-[#30363D] p-md rounded-lg flex items-start gap-md hover:border-[#8B5CF6] transition-colors cyber-glow">
+<div class="w-12 h-12 rounded bg-surface-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[#8B5CF6]">campaign</span>
+</div>
+<div>
+<h3 class="font-headline-lg-mobile text-on-surface mb-xs">Brevo</h3>
+<p class="font-body-md text-on-surface-variant mb-xs">Handles campaign dispatch by compiling dynamic templates with resolved prospect metadata.</p>
+<div class="font-label-sm text-tertiary">DATA: Analytics, Delivery</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="px-gutter py-[120px] max-w-container-max mx-auto w-full text-center flex flex-col items-center">
+<h2 class="font-headline-xl text-headline-xl text-on-surface mb-md">Ready to automate your outreach?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-lg mb-lg">Deploy an autonomous pipeline to eliminate manual friction and drive high-intent lead generation.</p>
+<div class="flex gap-md justify-center">
+<button class="bg-[#8B5CF6] text-white px-xl py-sm rounded transition-all duration-300 font-label-sm text-label-sm font-bold shadow-[0_0_15px_rgba(139,92,246,0.3)] hover:shadow-[0_0_25px_rgba(139,92,246,0.6)] btn-primary">
+                    Get Started
+                </button>
+<button class="border border-outline-variant text-on-surface px-xl py-sm rounded hover:bg-surface-container transition-colors font-label-sm text-label-sm font-bold flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm">code</span> View GitHub
+                </button>
+</div>
+</section>
+<!-- Mission Overview -->
+<section class="px-gutter py-xl max-w-container-max mx-auto w-full"><div class="rounded-xl overflow-hidden border border-outline-variant shadow-2xl h-64 md:h-[400px] relative"><img alt="Developer Workspace" class="w-full h-full object-cover opacity-50" src="https://lh3.googleusercontent.com/aida/AP1WRLsfhFCw42JDfWQkW3GQLcmjFiQ3xu3kIbA7FAoXssBe7xvCJiSMYyFyxqBuCvh-NOgykyIksOw1qj76sn2XuKu-GgS0ZtLCBOjy4FgxYwiLmBA3DgfLIadRMCsfWeD3ENYVcDDGqbvkX3OIF5YNK0ecdqBysQrh-dg5gwx5x78YyryfU5fSR8X35LGjWLnoMDlf9ab51VnxAU5vNgmIUMgk5kGgCJtM8shBOh6U4PiHqW2hmr_Qkr0LEoc"/><div class="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-background to-transparent"><div class="text-center"><h2 class="font-headline-lg text-headline-lg text-on-surface">Built for Developers</h2><p class="font-body-md text-on-surface-variant">A workspace optimized for high-concurrency automation.</p></div></div></div></section><section class="bg-surface-container-low py-xl border-t border-outline-variant mt-auto">
+<div class="px-gutter max-w-container-max mx-auto text-center max-w-2xl">
+<div class="text-label-sm font-label-sm text-secondary mb-xs">[MISSION]</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-md">Engineering Outreach</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Built to eliminate the manual friction of B2B prospecting. VocaReach chains together best-in-class data providers into a single, cohesive CLI experience designed for modern sales engineering teams.
+                </p>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-md px-gutter py-xl max-w-container-max mx-auto">
+<div class="font-headline-lg text-headline-lg text-on-surface font-bold">
+                VocaReach
+            </div>
+<div class="flex flex-col md:flex-row gap-sm md:gap-md md:col-span-2 md:justify-end font-label-sm text-label-sm">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Documentation</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Changelog</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Security</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Status</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Twitter</a>
+</div>
+</div>
+<div class="text-center pb-md font-label-sm text-label-sm text-tertiary">
+            © 2024 VocaLabs. Cyber-Industrial Automation.
+        </div>
+</footer>
+<script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const terminalContainer = document.getElementById('cli-demo-container');
+            const resetButton = document.getElementById('cli-reset');
+            let demoTimeoutId = null;
+            let isRunning = false;
+
+            const command = "$ npx vocareach start --target=\"stripe.com\"";
+            
+            const stages = [
+                { icon: "SCAN", desc: "[Stage 1] Executing Vector-Based Extraction (Ocean.io)..." },
+                { icon: "LEAD", desc: "[Stage 2] Prospecting Lead Attributes (Prospeo)..." },
+                { icon: "SMTP", desc: "[Stage 3] Resolving SMTP & MX Validation (Eazyreach)..." },
+                { icon: "SEND", desc: "[Stage 4] Injecting Templates & Dispatching (Brevo)..." }
+            ];
+
+            async function sleep(ms) {
+                return new Promise(resolve => {
+                    demoTimeoutId = setTimeout(resolve, ms);
+                });
+            }
+
+            async function typeText(element, text, speed = 30) {
+                element.innerHTML = '';
+                for (let i = 0; i < text.length; i++) {
+                    if (!isRunning) return;
+                    element.innerHTML += text.charAt(i);
+                    await sleep(speed);
+                }
+            }
+
+            async function runCliDemo() {
+                if (demoTimeoutId) clearTimeout(demoTimeoutId);
+                isRunning = true;
+                terminalContainer.innerHTML = '';
+                
+                const cursor = document.createElement('div');
+                cursor.className = 'w-2 h-4 bg-on-surface-variant animate-pulse inline-block align-middle ml-1';
+                
+                // 1. Command
+                const cmdLine = document.createElement('div');
+                cmdLine.className = 'text-tertiary mb-xs font-code-md text-code-md';
+                terminalContainer.appendChild(cmdLine);
+                cmdLine.appendChild(cursor);
+                
+                const cmdText = document.createElement('span');
+                cmdLine.insertBefore(cmdText, cursor);
+                
+                await typeText(cmdText, command);
+                if (!isRunning) return;
+                
+                await sleep(300);
+                cmdLine.removeChild(cursor);
+                
+                // 2. Initializing
+                const initLine = document.createElement('div');
+                initLine.className = 'opacity-70 mb-sm flex items-center gap-2';
+                initLine.innerHTML = '[INIT] Initializing pipeline...';
+                terminalContainer.appendChild(initLine);
+                
+                await sleep(600);
+                if (!isRunning) return;
+                
+                // 3. Stages
+                for (let stage of stages) {
+                    const stageLine = document.createElement('div');
+                    stageLine.className = 'flex items-start md:items-center flex-col md:flex-row gap-sm mb-xs w-full';
+                    
+                    const stageContent = document.createElement('div');
+                    stageContent.className = 'flex items-center gap-sm flex-grow';
+                    stageContent.innerHTML = `<span class="w-1 h-3 bg-secondary shrink-0"></span> <span class="shrink-0 font-bold">[${stage.icon}]</span> <span>${stage.desc}</span>`;
+                    
+                    stageLine.appendChild(stageContent);
+                    terminalContainer.appendChild(stageLine);
+                    
+                    await sleep(600);
+                    if (!isRunning) return;
+                    
+                    const doneSpan = document.createElement('span');
+                    doneSpan.className = 'text-tertiary font-bold md:ml-auto ml-6 mt-1 md:mt-0';
+                    doneSpan.innerText = '[DONE]';
+                    stageLine.appendChild(doneSpan);
+                    
+                    await sleep(150);
+                }
+                
+                await sleep(400);
+                if (!isRunning) return;
+                
+                // 4. Success Message
+                const successLine = document.createElement('div');
+                successLine.className = 'mt-md text-[#27C93F] font-bold';
+                successLine.innerText = '[OK] Pipeline execution complete. 12 qualified leads contacted.';
+                terminalContainer.appendChild(successLine);
+                
+                const finalCursorLine = document.createElement('div');
+                finalCursorLine.className = 'mt-xs';
+                finalCursorLine.appendChild(cursor);
+                terminalContainer.appendChild(finalCursorLine);
+                
+                // 5. Loop
+                await sleep(8000);
+                if (isRunning) runCliDemo();
+            }
+
+            resetButton.addEventListener('click', () => {
+                isRunning = false;
+                if (demoTimeoutId) clearTimeout(demoTimeoutId);
+                runCliDemo();
+            });
+
+            runCliDemo();
+        });
+    </script>
+</body></html>
