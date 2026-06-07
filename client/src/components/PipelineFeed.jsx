@@ -127,7 +127,7 @@ export default function PipelineFeed({ sessionId, onCheckpoint, onComplete }) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
           <h3 style={{ margin: 0 }}>Pipeline Progress</h3>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            {connected && <span className="spinner" />}
+            {connected && <span className="spinner spinner-sm spinner-secondary" style={{ marginRight: '4px' }} />}
             <span className="badge" style={{
               background: done ? 'var(--success-bg)' : hasError ? 'var(--error-bg)' : connected ? 'var(--violet-glow)' : 'rgba(255,255,255,0.06)',
               color: done ? 'var(--success)' : hasError ? 'var(--error)' : connected ? '#a78bfa' : 'var(--text-muted)',
@@ -149,7 +149,7 @@ export default function PipelineFeed({ sessionId, onCheckpoint, onComplete }) {
             <div key={idx} className={`stage-step ${stages[idx]}`}>
               <div className="stage-dot">
                 {stages[idx] === 'done'   && '✓'}
-                {stages[idx] === 'active' && <span className="spinner" style={{ width: 14, height: 14, borderWidth: 2 }} />}
+                {stages[idx] === 'active' && <span className="spinner spinner-sm spinner-secondary" />}
                 {stages[idx] === 'error'  && '✕'}
                 {stages[idx] === 'pending' && (idx + 1)}
               </div>

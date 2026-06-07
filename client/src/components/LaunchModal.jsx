@@ -81,7 +81,7 @@ export default function LaunchModal({
           >
             {isLaunching ? (
               <>
-                <div style={{ width: '14px', height: '14px', border: '2px solid rgba(255,255,255,0.2)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }}></div>
+                <span className="spinner spinner-sm" style={{ borderTopColor: '#fff', borderColor: 'rgba(255,255,255,0.2)' }} />
                 Initializing…
               </>
             ) : (

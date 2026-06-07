@@ -165,7 +165,7 @@ export default function CheckpointModal({ sessionId, total, preview, onConfirm, 
             onClick={() => handleDecision(false)}
             disabled={!!loading}
           >
-            {loading === 'cancel' ? <><span className="spinner" /> Cancelling…</> : '✕ Cancel Campaign'}
+            {loading === 'cancel' ? <><span className="spinner spinner-sm" style={{ borderTopColor: '#fff', borderColor: 'rgba(255,255,255,0.2)', marginRight: '6px' }} /> Cancelling…</> : '✕ Cancel Campaign'}
           </button>
           <button
             id="checkpoint-confirm"
@@ -173,7 +173,7 @@ export default function CheckpointModal({ sessionId, total, preview, onConfirm, 
             onClick={() => handleDecision(true)}
             disabled={!!loading}
           >
-            {loading === 'confirm' ? <><span className="spinner" /> Dispatching…</> : `⚡ Send ${total} Emails`}
+            {loading === 'confirm' ? <><span className="spinner spinner-sm" style={{ borderTopColor: '#fff', borderColor: 'rgba(255,255,255,0.2)', marginRight: '6px' }} /> Dispatching…</> : `⚡ Send ${total} Emails`}
           </button>
         </div>
       </div>
